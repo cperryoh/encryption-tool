@@ -15,7 +15,7 @@ import java.awt.event.KeyEvent;
 import java.io.ObjectOutputStream;
 
 public class tool {
-
+	//please note that spaces are ignored in the encryption process an spaces that are present are there in the final message
 	private JFrame frame;
 	JTextArea Out = new JTextArea();
 	JRadioButton deEncrypt = new JRadioButton("Decrypt");
