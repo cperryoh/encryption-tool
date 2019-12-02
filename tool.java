@@ -22,7 +22,8 @@ public class tool {
 	JRadioButton deEncrypt = new JRadioButton("Decrypt");
 	char[] temp;
 	boolean consumed;
-	int level = 200;
+	int level = 1;
+	//each 'coordinates' to a randomized version of the alphabet
 	String[] keys = { "f&p", "jaq", "frj", "guh", "il!", "yko", "bmp", "v&s", "wnj", "mvk", "v!?", "!id", "?uh", "zir",
 			"q.f", "eey", "z!n", "of?", "ie.", "d!k", "dok", "hvg", "h!z", "dim", "ziy", "pug", "xos", "kep", "tpj",
 			"wha", "qs,", "wns", "p,p", "ww,", "&&u", ".!o", "pxj", "l,!", "fjs", "?ne", "jdx", "fin", "exe", "opo",
@@ -30,8 +31,10 @@ public class tool {
 			"wky", "d&?", "s%b", "qwz", "jn?", "yck", "!ol", "lyt", "aug", "d!v", "yt?", "f,d", "mqd", "zjz", ",ae",
 			".!y", "%z,", "p.z", ".t.", "i.g", "us&", "qb?", "v?b", "?tl", "puo", "um.", "%o&", "?hg", "mgs", ".el",
 			",bu", "%iy", "rgc", "g&t", "wd,", "w!o", "m!z", "afd", "s&y", "wiu", "ast" };
-	char[] alphebet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+	//list of accepted characters to scramble
+	char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
 			't', 'u', 'v', 'w', 'x', 'y', 'z', ',', '.', '?', '&', '%', '!' };
+	//current scrambled list
 	char[][] mixedUps = {
 			{ 'q', 'a', 'j', 'k', 'y', 'i', 'w', 'r', 'l', 'u', '?', '&', 'f', 'b', 'h', 'c', 'x', 'p', 'm', 'd', 'z',
 					'v', 'n', 't', 's', '.', 'o', '%', 'e', 'g', '!', ',' },
@@ -255,10 +258,11 @@ public class tool {
 	 */
 	public tool() {
 		initialize();
+		//outputs a new set of keys and scrambled characters to use whenever the program opens
 		int keyCount = 100;
 		for (int y = 0; y < keyCount; y++) {
 			System.out.print("{");
-			temp = shuffle(alphebet);
+			temp = shuffle(alphabet);
 			for (int i = 0; i < temp.length; i++) {
 
 				System.out.print("'" + temp[i] + "'");
@@ -276,7 +280,7 @@ public class tool {
 			String keyString = "";
 			Random rnd = new Random();
 			for (int j = 0; j < 3; j++) {
-				keyString = keyString + mixedUps[rnd.nextInt(mixedUps.length)][rnd.nextInt(alphebet.length)];
+				keyString = keyString + mixedUps[rnd.nextInt(mixedUps.length)][rnd.nextInt(alphabet.length)];
 			}
 			System.out.print("\"" + keyString + "\"");
 			if (i != keyCount - 1) {
@@ -289,6 +293,7 @@ public class tool {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	//shuffle char array
 	char[] shuffle(char[] array) {
 		Random rand = new Random();
 
@@ -340,6 +345,7 @@ public class tool {
 		frame.getContentPane().add(Out);
 
 		JTextArea In = new JTextArea();
+		//when key down either decrypt or encrypt
 		In.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -365,16 +371,18 @@ public class tool {
 		In.setBounds(15, 85, 388, 393);
 		frame.getContentPane().add(In);
 	}
-
+	
 	String encrypt(String message) {
 		String inString = message;
 		Random rndRandom = new Random();
-		int choosen = rndRandom.nextInt(3);
+		int choosen = rndRandom.nextInt(keys.length);
 		String outString = keys[choosen];
+		//chooses the key that will be used for this level of encryption
 		char[] keyToUse = mixedUps[choosen];
+		//encrypts the string with the chosen key
 		for (int i = 0; i < inString.toCharArray().length; i++) {
 			if (inString.toCharArray()[i] != ' ') {
-				outString = outString + Out.getText() + keyToUse[findInArray(alphebet, inString.toCharArray()[i])];
+				outString = outString + Out.getText() + keyToUse[findInArray(alphabet, inString.toCharArray()[i])];
 			} else {
 				outString = outString + " ";
 			}
@@ -384,24 +392,16 @@ public class tool {
 
 	String deEnccrypt(String in) {
 		String out = "";
+		//finds which key was used for this encryption
 		char[] keyUsed = mixedUps[findInArrayString(keys, in.substring(0, 3))];
 		for (int i = 3; i < in.toCharArray().length; i++) {
 			if (in.toCharArray()[i] != ' ') {
-				out = out + alphebet[findInArray(keyUsed, in.toCharArray()[i])];
+				out = out + alphabet[findInArray(keyUsed, in.toCharArray()[i])];
 			} else {
 				out = out + " ";
 			}
 		}
 		return out;
-	}
-
-	boolean isValidCharacter(char character) {
-		for (int i = 0; i < alphebet.length; i++) {
-			if (alphebet[i] == character) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	int findInArrayString(String[] array, String value) {
