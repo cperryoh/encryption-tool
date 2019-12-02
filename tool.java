@@ -20,6 +20,7 @@ public class tool {
 	JTextArea Out = new JTextArea();
 	JRadioButton deEncrypt = new JRadioButton("Decrypt");
 	char[] temp;
+	int level = 5;
 	String[] keys = { "tca", "xzj", "rh,", "j&c", "kgl", "ygd", ",xq", "gqr", " lj", "qvn", "t&y", "plx", "dhf", "h?l",
 			"vie", "yol", "s?b", "&& ", "vjz", "gw ", "fuq", "scg", "pyv", "us&", "gzt", "iwv", "&zt", "wrw", "ove",
 			"qqe", "hh?", "lya", "nea", "ica", "t%d", "d?s", "vry", "dqm", "hac", " %&", "zts", "zam", "nfz", "tge",
@@ -342,7 +343,7 @@ public class tool {
 			public void keyReleased(KeyEvent arg0) {
 				String inString = In.getText().toLowerCase();
 				Out.setText("");
-				int level = 1;
+				
 				if (deEncrypt.isSelected()) {
 					String temp = inString;
 					for (int i = 0; i < level; i++) {
