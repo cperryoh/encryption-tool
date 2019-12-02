@@ -21,7 +21,8 @@ public class tool {
 	JTextArea Out = new JTextArea();
 	JRadioButton deEncrypt = new JRadioButton("Decrypt");
 	char[] temp;
-	int level = 5;
+	boolean consumed;
+	int level = 200;
 	String[] keys = { "f&p", "jaq", "frj", "guh", "il!", "yko", "bmp", "v&s", "wnj", "mvk", "v!?", "!id", "?uh", "zir",
 			"q.f", "eey", "z!n", "of?", "ie.", "d!k", "dok", "hvg", "h!z", "dim", "ziy", "pug", "xos", "kep", "tpj",
 			"wha", "qs,", "wns", "p,p", "ww,", "&&u", ".!o", "pxj", "l,!", "fjs", "?ne", "jdx", "fin", "exe", "opo",
@@ -344,7 +345,6 @@ public class tool {
 			public void keyReleased(KeyEvent arg0) {
 				String inString = In.getText().toLowerCase();
 				Out.setText("");
-
 				if (deEncrypt.isSelected()) {
 					String temp = inString;
 					for (int i = 0; i < level; i++) {
@@ -393,6 +393,15 @@ public class tool {
 			}
 		}
 		return out;
+	}
+
+	boolean isValidCharacter(char character) {
+		for (int i = 0; i < alphebet.length; i++) {
+			if (alphebet[i] == character) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	int findInArrayString(String[] array, String value) {
