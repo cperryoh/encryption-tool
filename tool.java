@@ -21,12 +21,12 @@ public class tool {
 	JTextArea Out = new JTextArea();
 	JRadioButton deEncrypt = new JRadioButton("De encrypt");
 	char[] temp;
-	String[] keys = { "awr", "qwe", "xcv","foq" };
+	String[] keys = { "awr", "qwe", "xcv","foq","dme" };
 	char[] alphebet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
 			't', 'u', 'v', 'w', 'x', 'y', 'z' };
 	char[][] mixedUps = {
 			{ 'd', 'l', 'u', 't', 'f', 'g', 'j', 'k', 'c', 'y', 'z', 'm', 's', 'n', 'q', 'r', 'o', 'i', 'p', 'v', 'a',
-					'w', 'b', 'e', 'h', 'x' },
+					'w', 'b', 'e', 'h', 'x' },{'n','u','o','k','v','f','d','j','m','i','p','e','r','c','s','y','l','w','t','g','z','x','b','h','q','a'},
 			{ 'h', 'r', 'l', 'p', 'd', 'm', 'v', 'e', 'g', 'k', 'c', 'f', 'o', 'y', 'a', 'q', 'j', 'i', 'b', 'u', 'x',
 					's', 'w', 'z', 't', 'n' },
 			{ 'b', 'v', 'k', 'a', 'x', 'g', 'w', 'e', 't', 'f', 'l', 'q', 'p', 'm', 'o', 'u', 'n', 'c', 'z', 'j', 'h',
@@ -121,7 +121,7 @@ public class tool {
 			public void keyReleased(KeyEvent arg0) {
 				String inString = In.getText();
 				Out.setText("");
-				int level=100;
+				int level=20;
 				if (deEncrypt.isSelected()) {
 					String temp=inString;
 					for(int i=0;i<level;i++) {
