@@ -33,7 +33,6 @@ public class tool {
 					's', 'y', 'i', 'r', 'd' },
 			{ '3', 'm', 'w', 'n', 'o', 'l', '1', 'y', 'i', 'u', 'd', 'c', 'j', 'p', 'q', 'g', 'v', 'f', 't', 'h', 'b',
 					'a', 'z', 'x', 'r', 'e' }, };
-	private JTextField In;
 
 	/**
 	 * Launch the application.
@@ -80,7 +79,7 @@ public class tool {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 857, 528);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -108,35 +107,40 @@ public class tool {
 			}
 		});
 		frame.getContentPane().add(deEncrypt);
-
-		In = new JTextField();
-		In.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				String inString = In.getText();
-				Out.setText("");
-
-				if (deEncrypt.isSelected()) {
-					String levelOne=deEnccrypt(inString);
-					String levelTwo =deEnccrypt(levelOne)
-							;
-					Out.setText(levelTwo);
-				} else {
-
-					Out.setText(encrypt(encrypt(inString)));
-				}
-			}
-		});
-		In.setBounds(15, 38, 223, 26);
-		frame.getContentPane().add(In);
-		In.setColumns(10);
 		Out.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		Out.setLineWrap(true);
 		
 		
 		Out.setEditable(false);
-		Out.setBounds(25, 80, 388, 148);
+		Out.setBounds(422, 85, 388, 393);
 		frame.getContentPane().add(Out);
+		
+		JTextArea In = new JTextArea();
+		In.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				String inString = In.getText();
+				Out.setText("");
+				int level=100;
+				if (deEncrypt.isSelected()) {
+					String temp=inString;
+					for(int i=0;i<level;i++) {
+						temp=deEnccrypt(temp);
+					}
+					Out.setText(temp);
+				} else {
+					String temp=inString;
+					for(int i=0;i<level;i++) {
+						temp=encrypt(temp);
+					}
+					Out.setText(temp);
+				}
+			}
+		});
+		In.setLineWrap(true);
+		In.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		In.setBounds(15, 85, 388, 393);
+		frame.getContentPane().add(In);
 	}
 	String encrypt(String message) {
 		String inString = message;
