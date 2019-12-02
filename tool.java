@@ -1,4 +1,4 @@
-package encryption;
+
 
 import java.awt.EventQueue;
 
@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.BevelBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.ObjectOutputStream;
 
 public class tool {
 
@@ -116,27 +117,13 @@ public class tool {
 				Out.setText("");
 
 				if (deEncrypt.isSelected()) {
-					char[] keyUsed = mixedUps[findInArrayString(keys, inString.substring(0, 3))];
-					for (int i = 3; i < inString.toCharArray().length; i++) {
-						if (inString.toCharArray()[i] != ' ') {
-							Out.setText(Out.getText() + alphebet[findInArray(keyUsed, inString.toCharArray()[i])]);
-						} else {
-							Out.setText(Out.getText() + " ");
-						}
-					}
+					String levelOne=deEnccrypt(inString);
+					String levelTwo =deEnccrypt(levelOne)
+							;
+					Out.setText(levelTwo);
 				} else {
 
-					Random rndRandom = new Random();
-					int choosen = rndRandom.nextInt(3);
-					Out.setText(keys[choosen]);
-					char[] keyToUse = mixedUps[choosen];
-					for (int i = 0; i < inString.toCharArray().length; i++) {
-						if (inString.toCharArray()[i] != ' ') {
-							Out.setText(Out.getText() + keyToUse[findInArray(alphebet, inString.toCharArray()[i])]);
-						} else {
-							Out.setText(Out.getText() + " ");
-						}
-					}
+					Out.setText(encrypt(encrypt(inString)));
 				}
 			}
 		});
@@ -151,7 +138,33 @@ public class tool {
 		Out.setBounds(25, 80, 388, 148);
 		frame.getContentPane().add(Out);
 	}
-
+	String encrypt(String message) {
+		String inString = message;
+		Random rndRandom = new Random();
+		int choosen = rndRandom.nextInt(3);
+		String outString = keys[choosen];
+		char[] keyToUse = mixedUps[choosen];
+		for (int i = 0; i < inString.toCharArray().length; i++) {
+			if (inString.toCharArray()[i] != ' ') {
+				outString=outString+Out.getText() + keyToUse[findInArray(alphebet, inString.toCharArray()[i])];
+			} else {
+				outString=outString+ " ";
+			}
+		}
+		return outString;
+	}
+	String deEnccrypt(String in) {
+		String out="";
+		char[] keyUsed = mixedUps[findInArrayString(keys, in.substring(0, 3))];
+		for (int i = 3; i < in.toCharArray().length; i++) {
+			if (in.toCharArray()[i] != ' ') {
+				out=out+alphebet[findInArray(keyUsed, in.toCharArray()[i])];
+			} else {
+				out=out+ " ";
+			}
+		}
+		return out;
+	}
 	int findInArrayString(String[] array, String value) {
 		for (int i = 0; i < array.length; i++) {
 			if (array[i].equals(value)) {
