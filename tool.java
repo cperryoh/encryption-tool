@@ -1,5 +1,8 @@
 
 import java.awt.EventQueue;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
@@ -23,7 +26,7 @@ public class tool {
 	JRadioButton deEncrypt = new JRadioButton("Decrypt");
 	char[] temp;
 	boolean consumed;
-	int level = 3;
+	int level = 15;
 	// each 'coordinates' to a randomized version of the alphabet
 	String[] keys = { "xrw", ",rd", "tx0", "l86", "v5?", "abr", ".yy", "zta", "7w0", "ip6", "y14", "rlm", "xo9", "931",
 			"osc", "p!n", "j4a", "0!4", "2np", "kli", "iyh", "1d3", "ehb", "ssx", "lmn", "cyd", "htc", "ocg", "h14",
@@ -463,12 +466,20 @@ public class tool {
 							deEncrypt.setSelected(false);
 						}
 					}
+					String myString = "This text will be copied into clipboard";
+					StringSelection stringSelection = new StringSelection(temp);
+					Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+					clipboard.setContents(stringSelection, null);
 					Out.setText(temp);
 				} else {
 					String temp = inString;
 					for (int i = 0; i < level; i++) {
 						temp = encrypt(temp);
 					}
+					String myString = "This text will be copied into clipboard";
+					StringSelection stringSelection = new StringSelection(temp);
+					Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+					clipboard.setContents(stringSelection, null);
 					Out.setText(temp);
 				}
 			}
