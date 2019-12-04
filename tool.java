@@ -3,19 +3,15 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.util.Random;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.border.BevelBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.ObjectOutputStream;
 import javax.swing.JScrollPane;
 
 public class tool {
@@ -27,8 +23,8 @@ public class tool {
 	char[] temp;
 	boolean consumed;
 	int level = 50;
-	String[] levelkeys = {"!?","e0","sk","qv","ki","?2","32","1q"};
-	int[] randomLevels = {25  ,13  ,40  ,50  ,12  ,43  ,34  ,56};
+	String[] levelkeys = { "lo", "z.", "oz", "v2", "9r", "t.", "1n", "v2" };
+	int[] randomLevels = {32,28,32,50,54,26,22,36};
 	// each 'coordinates' to a randomized version of the alphabet
 	String[] keys = { "xrw", ",rd", "tx0", "l86", "v5?", "abr", ".yy", "zta", "7w0", "ip6", "y14", "rlm", "xo9", "931",
 			"osc", "p!n", "j4a", "0!4", "2np", "kli", "iyh", "1d3", "ehb", "ssx", "lmn", "cyd", "htc", "ocg", "h14",
@@ -368,6 +364,8 @@ public class tool {
 		// outputs a new set of keys and scrambled characters to use whenever the
 		// program opens
 		int keyCount = 100;
+		
+		//random shuffle generation
 		for (int y = 0; y < keyCount; y++) {
 			System.out.print("{");
 			temp = shuffle(alphabet);
@@ -383,7 +381,9 @@ public class tool {
 				System.out.print(",");
 			}
 		}
-		System.out.print("{");
+		
+		//random keys
+		System.out.print("Random keys: {");
 		for (int i = 0; i < keyCount; i++) {
 			String keyString = "";
 			Random rnd = new Random();
@@ -392,6 +392,34 @@ public class tool {
 			}
 			System.out.print("\"" + keyString + "\"");
 			if (i != keyCount - 1) {
+				System.out.print(",");
+			}
+		}
+		System.out.print("}\n");
+		
+		//creates random level keys
+		System.out.print("Random level keys: {");
+		for (int i = 0; i < randomLevels.length; i++) {
+			String keyString = "";
+			Random rnd = new Random();
+			for (int j = 0; j < 2; j++) {
+				keyString = keyString + mixedUps[rnd.nextInt(mixedUps.length)][rnd.nextInt(alphabet.length)];
+			}
+			System.out.print("\"" + keyString + "\"");
+			if (i != randomLevels.length - 1) {
+				System.out.print(",");
+			}
+		}
+		System.out.print("}\n");
+		
+		//creates random levels
+		System.out.print("Random levels: {");
+		for (int i = 0; i < randomLevels.length; i++) {
+			String keyString = "";
+			Random rnd = new Random();
+			keyString = keyString + Integer.toString(rnd.nextInt(60-10)+10);
+			System.out.print(keyString);
+			if (i != randomLevels.length - 1) {
 				System.out.print(",");
 			}
 		}
@@ -414,10 +442,12 @@ public class tool {
 
 		return array;
 	}
+
 	public String setLevel(String textIn) {
-		level = randomLevels[findInArrayString(levelkeys, textIn.substring(0,2))];
-		return textIn.substring(2,textIn.length());
+		level = randomLevels[findInArrayString(levelkeys, textIn.substring(0, 2))];
+		return textIn.substring(2, textIn.length());
 	}
+
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 857, 528);
@@ -477,17 +507,17 @@ public class tool {
 					clipboard.setContents(stringSelection, null);
 					Out.setText(temp);
 				} else {
-					Random rnd=new Random();
-					int levelSelected=rnd.nextInt(levelkeys.length);
-					level=randomLevels[levelSelected];
+					Random rnd = new Random();
+					int levelSelected = rnd.nextInt(levelkeys.length);
+					level = randomLevels[levelSelected];
 					String temp = inString;
 					for (int i = 0; i < level; i++) {
 						temp = encrypt(temp);
 					}
-					StringSelection stringSelection = new StringSelection(levelkeys[levelSelected]+temp);
+					StringSelection stringSelection = new StringSelection(levelkeys[levelSelected] + temp);
 					Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 					clipboard.setContents(stringSelection, null);
-					Out.setText(levelkeys[levelSelected]+temp);
+					Out.setText(levelkeys[levelSelected] + temp);
 				}
 			}
 		});
