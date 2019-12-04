@@ -23,8 +23,8 @@ public class tool {
 	char[] temp;
 	boolean consumed;
 	int level = 50;
-	String[] levelkeys = { "lo", "z.", "oz", "v2", "9r", "t.", "1n", "v2" };
-	int[] randomLevels = {32,28,32,50,54,26,22,36};
+	String[] levelkeys = {"0z","y7","a7","mr","f9","vo","93","fd"};
+	int[] randomLevels = {32,28,33,50,54,26,22,36};
 	// each 'coordinates' to a randomized version of the alphabet
 	String[] keys = { "xrw", ",rd", "tx0", "l86", "v5?", "abr", ".yy", "zta", "7w0", "ip6", "y14", "rlm", "xo9", "931",
 			"osc", "p!n", "j4a", "0!4", "2np", "kli", "iyh", "1d3", "ehb", "ssx", "lmn", "cyd", "htc", "ocg", "h14",
@@ -492,7 +492,9 @@ public class tool {
 				String inString = In.getText().toLowerCase();
 				Out.setText("");
 				if (deEncrypt.isSelected()) {
+					System.out.println("\n"+inString);
 					String temp = setLevel(inString);
+					System.out.println(temp);
 					for (int i = 0; i < level; i++) {
 						try {
 							temp = deEnccrypt(temp);
@@ -504,7 +506,7 @@ public class tool {
 					String myString = "This text will be copied into clipboard";
 					StringSelection stringSelection = new StringSelection(temp);
 					Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-					clipboard.setContents(stringSelection, null);
+					//clipboard.setContents(stringSelection, null);
 					Out.setText(temp);
 				} else {
 					Random rnd = new Random();
@@ -516,7 +518,7 @@ public class tool {
 					}
 					StringSelection stringSelection = new StringSelection(levelkeys[levelSelected] + temp);
 					Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-					clipboard.setContents(stringSelection, null);
+					//clipboard.setContents(stringSelection, null);
 					Out.setText(levelkeys[levelSelected] + temp);
 				}
 			}
