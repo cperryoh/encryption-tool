@@ -341,13 +341,49 @@ public class tool {
 					':', 'n', '!', '4' } };
 	int[] randomLevels = { 51, 14, 71, 81, 19, 12, 73, 96 };
 	String[] levelKeys = { ":/", "v:", "uc", "ie", "92", "/b", "zs", "o0" };
-	char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+	char[] charsToUse = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
 			't', 'u', 'v', 'w', 'x', 'y', 'z', ',', '.', '?', '&', '%', '!', '1', '2', '3', '4', '5', '6', '7', '8',
 			'9', '0', '/', ':', '=' };
 
 	/**
 	 * Launch the application.
 	 */
+	
+	/*
+	 * Quick run-down on how this works(READ IF CONFUSED):
+	 * So we have a few arrays of keys and arrays that correlate to them
+	 * keys->mixups
+	 * levelkeys->random levels
+	 * 
+	 * Mixups: array of ciphers or mixups of the array, charsToUse (Cipher replaces one character for another)
+	 * Keys: Array of strings, each 3 letters long. Each string correlates to a mixup
+	 * 
+	 * randomLevels:Array of random numbers, this gives the encryptor multiple options of how many times to encrypt our string
+	 * levelkeys: an array of two character long strings that correlate to a number in random levels
+	 * 
+	 * CharsToUse: Valid characters that can be encrypted and be used in decryption
+	 * 
+	 * Methodology: 
+	 * All encryption does is it first decides how many times to encrypt our string(using randomLevels). After that is takes
+	 * the string the user provided, runs it through the encrypt() function a certain number of times, and store the output, it
+	 * takes that output and does that process over and over again, constantly building upon it's self. 
+	 * Once we have a final string that has been ran a number of times(decided by a random index selection from randomLevels) through
+	 * encrypt(), we tack on our key that correlates to our encryption level to the beginning and spit out a final output.
+	 * encrypt(): in this method we chose a cipher from mixups, run our input through it, 
+	 * then tack on our key for our chosen mixup to the beginning and return.
+	 * 
+	 * For decryption, it is a bit more complicated. First, we find out how many times we ran our original string through encrypt(). 
+	 * After we figure that out, we remove the first 
+	 * two characters(the key that told us how many times our string was encrypted over). Then we loop our string through decrypt() 
+	 * that many times.
+	 * decrypt: this method takes note of the first three characters(a mixup key) and connects it to a mix up. Then starting from the
+	 * fourth character(as to not include the key). We reverse the cipher from our mixup we found using the key to CharsToUse and build
+	 * a new string that we then output for either further decryption or final output to the user.
+	 * 
+	 * 
+	 * This is powerful because it uses 100 ciphers to make a countless number of others. This is because each output from encrypt(), 
+	 * including the key, is ran back through, re-encrypting the whole string using a new(or possibly the same) cipher.
+	 * */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -452,7 +488,7 @@ public class tool {
 					String keyString = "";
 					Random rnd = new Random();
 					for (int j = 0; j < 3; j++) {
-						keyString = keyString + alphabet[rnd.nextInt(alphabet.length)];
+						keyString = keyString + charsToUse[rnd.nextInt(charsToUse.length)];
 					}
 					out += "\"" + keyString + "\"";
 					if (i != mixUpKeyCount - 1) {
@@ -467,7 +503,7 @@ public class tool {
 				for (int y = 0; y < mixUpKeyCount; y++) {
 					out += "{";
 					// shuffles the alphabet
-					temp = shuffle(alphabet);
+					temp = shuffle(charsToUse);
 
 					// prints to console with correct formating in case you would like to use new
 					// keys
@@ -501,7 +537,7 @@ public class tool {
 					String keyString = "";
 					Random rnd = new Random();
 					for (int j = 0; j < 2; j++) {
-						keyString = keyString + alphabet[rnd.nextInt(alphabet.length)];
+						keyString = keyString + charsToUse[rnd.nextInt(charsToUse.length)];
 					}
 					out += "\"" + keyString + "\"";
 					if (i != randomLevels.length - 1) {
@@ -533,7 +569,7 @@ public class tool {
 					String temp = inString;
 					
 					//find out how many times the message was ran through the algorithm using our level keys and the first two characters of our input
-					int ecyrtptionLevelIndex = findInArrayString(levelKeys, temp.substring(0, 2));
+					int ecyrtptionLevelIndex = findInArray(levelKeys, temp.substring(0, 2));
 					temp = temp.substring(2);
 					
 					//loop till we have a string that has no more keys left and just the message
@@ -551,9 +587,10 @@ public class tool {
 				} else {
 					Random rnd = new Random();
 
-					// select random lvl key
+					// select random lvl key(how many times encrypt() will be ran on our temp string)
 					int levelSelectedIndex = rnd.nextInt(levelKeys.length);
 
+					//value to store our out put after encryption to be dumped back into encrypt()
 					String temp = inString;
 					
 					//run our message through the encrypt algorithm for our chosen count
@@ -562,6 +599,9 @@ public class tool {
 					}
 					// copyToClipBoard(levelKeys[levelSelectedIndex] + temp);
 					// clipboard.setContents(stringSelection, null);
+					
+					//add our chosen level key to our encrypted string
+					//level key is a signature that tells the dencryptor how many times we ran encrypt() on our string
 					Out.setText(levelKeys[levelSelectedIndex] + temp);
 				}
 			}
@@ -586,7 +626,7 @@ public class tool {
 		//add our selected key to the beginning of our string
 		String outString = keys[mixUpIndex];
 
-		// chooses the key that will be used for this level of encryption
+		// chooses the mix up that will be used for cipher
 		char[] keyToUse = mixedUps[mixUpIndex];
 
 		// encrypts the string with the chosen key each iteration 
@@ -594,9 +634,13 @@ public class tool {
 			
 			//if the current char is a space, skip it 
 			if (inString.toCharArray()[i] != ' ') {
-				outString += keyToUse[findInArray(alphabet, inString.toCharArray()[i])];
+				
+				//Correlate our current char, like 'h' in hello to a new char in our mix up, like '?'
+				outString += keyToUse[findInArray(charsToUse, inString.toCharArray()[i])];
 			} else {
-				outString = outString + " ";
+				
+				//adds a space to our out put if there is one in our input
+				outString += " ";
 			}
 		}
 		return outString;
@@ -604,27 +648,38 @@ public class tool {
 
 	String deEnccrypt(String in) {
 		String out = "";
-		// finds which key was used for this encryption
-		char[] keyUsed = mixedUps[findInArrayString(keys, in.substring(0, 3))];
+		// finds which key was used for this encryption using the keys array and the first three chars of our input
+		char[] keyUsed = mixedUps[findInArray(keys, in.substring(0, 3))];
+		
+		
+		//We start off at 3 because we don't want to include the first 3 chars to our output, so we start af the 4th character in our string
 		for (int i = 3; i < in.toCharArray().length; i++) {
 			if (in.toCharArray()[i] != ' ') {
-				out = out + alphabet[findInArray(keyUsed, in.toCharArray()[i])];
+				
+				//go from cipher -> actual characters 
+				out += charsToUse[findInArray(keyUsed, in.toCharArray()[i])];
 			} else {
-				out = out + " ";
+				
+				//if there is a space, add it to our output
+				out += " ";
 			}
 		}
 		return out;
 	}
-
-	int findInArrayString(String[] array, String value) {
+	//finds a string in an array and returns the index
+	int findInArray(String[] array, String value) {
+		
+		//loop through each index looking for a string that matches the value varibe
 		for (int i = 0; i < array.length; i++) {
+			//if the item in the current index matches our input, return i(our current index)
 			if (array[i].equals(value)) {
 				return i;
 			}
 		}
+		//if we can't find it, return -1
 		return -1;
 	}
-
+	//the same thing as the string version, but with chars, Ex: 'H'
 	int findInArray(char[] array, char value) {
 		for (int i = 0; i < array.length; i++) {
 			if (array[i] == value) {
