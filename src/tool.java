@@ -33,7 +33,7 @@
 	 * we remove the first two characters(the key that told us how many times our
 	 * string was encrypted over). Then we loop our string through decrypt() that
 	 * many times. 
-	 * decrypt: this method takes note of the first three characters(a
+	 * decrypt(): this method takes note of the first three characters(a
 	 * mixup key) and connects it to a mix up. Then starting from the fourth
 	 * character(as to not include the key). We reverse the cipher from our mixup we
 	 * found using the key to CharsToUse and build a new string that we then output
