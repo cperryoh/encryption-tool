@@ -1,15 +1,17 @@
+
 /*
-	 * Quick run-down on how this works(READ IF CONFUSED): So we have a few arrays
-	 * of keys and arrays that correlate to them keys->mixups levelkeys->random
+     * Quick run-down on how this works(READ IF CONFUSED): So we have a few arrays
+	 * of keys and arrays that correlate to them 
+	 * keys->mixups 
+	 * levelkeys->random
 	 * levels
 	 * 
-	 * Mixups: array of ciphers or mixups of the array, charsToUse (Cipher replaces
-	 * one character for another) Keys: Array of strings, each 3 letters long. Each
-	 * string correlates to a mixup
+	 * Mixups: array of ciphers or mixups of the array, charsToUse (Cipher replaces one character for another) 
+	 * Keys: Array of strings, each 3 letters long. Each string correlates to a mixup
 	 * 
-	 * randomLevels:Array of random numbers, this gives the encryptor multiple
-	 * options of how many times to encrypt our string levelkeys: an array of two
-	 * character long strings that correlate to a number in random levels
+	 * randomLevels: Array of random numbers, this gives the encryptor multiple
+	 * options of how many times to encrypt our string 
+	 * levelkeys: an array of two character long strings that correlate to a number in random levels
 	 * 
 	 * CharsToUse: Valid characters that can be encrypted and be used in decryption
 	 * 
@@ -21,7 +23,8 @@
 	 * string that has been ran a number of times(decided by a random index
 	 * selection from randomLevels) through encrypt(), we tack on our key that
 	 * correlates to our encryption level to the beginning and spit out a final
-	 * output. encrypt(): in this method we chose a cipher from mixups, run our
+	 * output. 
+	 * encrypt(): in this method we chose a cipher from mixups, run our
 	 * input through it, then tack on our key for our chosen mixup to the beginning
 	 * and return.
 	 * 
@@ -29,7 +32,8 @@
 	 * times we ran our original string through encrypt(). After we figure that out,
 	 * we remove the first two characters(the key that told us how many times our
 	 * string was encrypted over). Then we loop our string through decrypt() that
-	 * many times. decrypt: this method takes note of the first three characters(a
+	 * many times. 
+	 * decrypt: this method takes note of the first three characters(a
 	 * mixup key) and connects it to a mix up. Then starting from the fourth
 	 * character(as to not include the key). We reverse the cipher from our mixup we
 	 * found using the key to CharsToUse and build a new string that we then output
@@ -39,7 +43,7 @@
 	 * This is powerful because it uses 100 ciphers to make a countless number of
 	 * others. This is because each output from encrypt(), including the key, is ran
 	 * back through, re-encrypting the whole string using a new(or possibly the
-	 * same) cipher.
+	 * same) cipher compared to the previous one.
 	 */
 import java.awt.EventQueue;
 import java.awt.Toolkit;
@@ -391,7 +395,6 @@ public class tool {
 	 * Launch the application.
 	 */
 
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
