@@ -77,7 +77,8 @@ public class tool {
 	JRadioButton deEncrypt = new JRadioButton("Decrypt");
 	boolean consumed;
 	int level = 50;
-	//If you are copying keys from the make keys button, start your selection on the next line vvvv 
+	//VVVVVVVVVV
+	//If you are copying keys from the make keys button, start your selection on the next line  
 	String[] keys = { "lu>", "lmm", "hfw", ":y:", "m2:", ",ur", "fq9", ":<9", "bs8", "<,k", "wr!", "qe?", "nyq", "cp3",
 			"#yo", "f%2", "wh6", "rg&", "hea", "&&&", "ne=", "5z2", "dcn", "y=p", "oan", "wnc", ">qi", "o:e", ":a%",
 			".zy", "n%g", "kg6", "1j9", "3/p", "bc0", "f#n", "t7#", "eg&", "otj", "6<:", "97s", ",f#", ";hw", "egb",
@@ -388,7 +389,8 @@ public class tool {
 					'1', ':', 'l', ';', 'g', '2', '0', '=' } };
 	int[] randomLevels = { 71, 51, 26, 66, 50, 20, 49, 34 };
 	String[] levelKeys = { "k5", ";k", "/p", "&l", "!u", "ff", "!6", "5=" };
-	//end your selection on the line above ^^
+	//end your selection on the line above
+	//^^^^^^^^^^
 	char[] charsToUse = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
 			't', 'u', 'v', 'w', 'x', 'y', 'z', ',', '.', '?', '&', '%', '!', '1', '2', '3', '4', '5', '6', '7', '8',
 			'9', '0', '/', ':', ';', '=', '<', '>', '#' };
