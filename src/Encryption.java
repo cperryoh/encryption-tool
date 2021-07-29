@@ -1,5 +1,50 @@
 import java.util.Random;
-
+/*
+ * Quick run-down on how this works(READ IF CONFUSED): So we have a few arrays
+ * of keys and arrays that correlate to them 
+ * keys->mixups 
+ * levelkeys->random
+ * levels
+ * 
+ * Mixups: array of ciphers or mixups of the array, charsToUse (Cipher replaces one character for another) 
+ * Keys: Array of strings, each 3 letters long. Each string correlates to a mixup
+ * 
+ * randomLevels: Array of random numbers, this gives the encryptor multiple
+ * options of how many times to encrypt our string 
+ * levelkeys: an array of two character long strings that correlate to a number in random levels
+ * 
+ * CharsToUse: Valid characters that can be encrypted and be used in decryption
+ * 
+ * Methodology: All encryption does is it first decides how many times to
+ * encrypt our string(using randomLevels). After that is takes the string the
+ * user provided, runs it through the encrypt() function a certain number of
+ * times, and store the output, it takes that output and does that process over
+ * and over again, constantly building upon it's self. Once we have a final
+ * string that has been ran a number of times(decided by a random index
+ * selection from randomLevels) through encrypt(), we tack on our key that
+ * correlates to our encryption level to the beginning and spit out a final
+ * output. 
+ * encrypt(): in this method we chose a cipher from mixups, run our
+ * input through it, then tack on our key for our chosen mixup to the beginning
+ * and return.
+ * 
+ * For decryption, it is a bit more complicated. First, we find out how many
+ * times we ran our original string through encrypt(). After we figure that out,
+ * we remove the first two characters(the key that told us how many times our
+ * string was encrypted over). Then we loop our string through decrypt() that
+ * many times. 
+ * decrypt(): this method takes note of the first three characters(a
+ * mixup key) and connects it to a mix up. Then starting from the fourth
+ * character(as to not include the key). We reverse the cipher from our mixup we
+ * found using the key to CharsToUse and build a new string that we then output
+ * for either further decryption or final output to the user.
+ * 
+ * 
+ * This is powerful because it uses 100 ciphers to make a countless number of
+ * others. This is because each output from encrypt(), including the key, is ran
+ * back through, re-encrypting the whole string using a new(or possibly the
+ * same) cipher compared to the previous one.
+ */
 public class Encryption {
 	static String[] keys = { "lu>", "lmm", "hfw", ":y:", "m2:", ",ur", "fq9", ":<9", "bs8", "<,k", "wr!", "qe?", "nyq", "cp3",
 			"#yo", "f%2", "wh6", "rg&", "hea", "&&&", "ne=", "5z2", "dcn", "y=p", "oan", "wnc", ">qi", "o:e", ":a%",
