@@ -187,6 +187,7 @@ public class tool {
 					} catch (IndexOutOfBoundsException e) {
 						encrypt.setSelected(true);
 						deEncrypt.setSelected(false);
+						//assume user does not want to try and de-encrypt the invalid string, switch to encryption mode 
 					}
 				} else {
 					Out.setText(Encryption.encrypt(inString.toLowerCase()));
