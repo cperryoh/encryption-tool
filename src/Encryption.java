@@ -56,16 +56,12 @@ public class Encryption {
 	
 	public static char[] shuffle(char[] array) {
 		Random rand = new Random();
-		char[] out = new char[array.length];
-		for (int i = 0; i < array.length; i++) {
-
-			// get random index
-			int randomIndexToSwap = rand.nextInt(array.length);
-
-			// move chars to new positions
-			char temp = array[randomIndexToSwap];
-			out[randomIndexToSwap] = array[i];
-			out[i] = temp;
+		char[] out = array;
+		for(int i=0;i<out.length;i++){
+			int randIndex=rand.nextInt(array.length);
+			char temp =out[i];
+			out[i]=out[randIndex];
+			out[randIndex]=temp;
 		}
 		return out;
 	}
@@ -82,20 +78,12 @@ public class Encryption {
 
 		// chooses the mix up that will be used for cipher
 		char[] keyToUse = data.mixedUps[mixUpIndex];
-
-		// encrypts the string with the chosen key each iteration
-		for (int i = 0; i < inString.toCharArray().length; i++) {
-			char currentChar = inString.toCharArray()[i];
-			// if the current char is a space, skip it
-			if (currentChar != ' ') {
-
-				// Correlate our current char, like 'h' in hello to a new char in our mix up,
-				// like '?'
-				outString += keyToUse[findInArray(data.charsToUse, currentChar)];
-			} else {
-
-				// adds a space to our out put if there is one in our input
-				outString += " ";
+		for(int i = 0; i < message.length();i++){
+			char curChar = message.charAt(i);
+			if(curChar!=' '){
+				outString+=keyToUse[findInArray(data.charsToUse,curChar)];
+			}else{
+				outString+=' ';
 			}
 		}
 		return outString;
@@ -164,7 +152,7 @@ public class Encryption {
 		// add our chosen level key to our encrypted string
 		// level key is a signature that tells the dencryptor how many times we ran
 		// encrypt() on our string
-		return temp;
+		return data.levelKeys[levelSelectedIndex]+temp;
 	}
 
 	public int findInArray(String[] array, String value) {

@@ -17,7 +17,6 @@ public class cmd_tool {
 			switch(choice) {
 				case "n":
 				{
-					copyToClipBoard(encryption.reprogram());
 					System.out.println("New keys coppied\ne");
 					break;
 				}
