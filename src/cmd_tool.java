@@ -7,6 +7,7 @@ public class cmd_tool {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		Encryption encryption = new Encryption();
 		String choice ="";
 		String lastOutput="";
 		Scanner scn = new Scanner(System.in);
@@ -16,7 +17,7 @@ public class cmd_tool {
 			switch(choice) {
 				case "n":
 				{
-					copyToClipBoard(Encryption.reprogram());
+					copyToClipBoard(encryption.reprogram());
 					System.out.println("New keys coppied\ne");
 					break;
 				}
@@ -34,7 +35,7 @@ public class cmd_tool {
 				{
 					System.out.print("Enter a message to encrypt: ");
 					String message = scn.nextLine();
-					lastOutput=Encryption.encrypt(message.toLowerCase());
+					lastOutput=encryption.encrypt(message.toLowerCase());
 					System.out.println("\nMessage:\n"+lastOutput+"\n");
 					break;
 				}
@@ -43,7 +44,7 @@ public class cmd_tool {
 					try {
 						System.out.print("Enter a message to de-encrypt: ");
 						String message = scn.nextLine();
-						lastOutput=Encryption.de_encrypt(message);
+						lastOutput=encryption.de_encrypt(message);
 						System.out.println("\nMessage:\n\""+lastOutput+"\"\n");
 					}catch(Exception e) {
 						System.out.println("\n*De-encryption failed, encrypted message is possibly invalid*d\n");

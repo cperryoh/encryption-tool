@@ -28,6 +28,7 @@ public class tool {
 	// please note that spaces are ignored in the encryption process an spaces that
 	// are present are there in the final message
 	private JFrame frame;
+	Encryption encryption;
 	JTextArea Out = new JTextArea();
 	JRadioButton deEncrypt = new JRadioButton("Decrypt");
 	boolean consumed;
@@ -52,6 +53,7 @@ public class tool {
 	 */
 	public tool() {
 		initialize();
+		encryption=new Encryption();
 
 	}
 
@@ -113,13 +115,6 @@ public class tool {
 
 		JMenuItem makeNewKeys = new JMenuItem("Make New Keys");
 
-		// Generates new keys to be copied back into script for use
-		makeNewKeys.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// make mix up keys
-				copyToClipBoard(Encryption.reprogram());
-			}
-		});
 		menuBar.add(makeNewKeys);
 
 		Component horizontalStrut = Box.createHorizontalStrut(575);
@@ -138,19 +133,23 @@ public class tool {
 				
 				if (deEncrypt.isSelected()) {
 					try {
-						Out.setText(Encryption.de_encrypt(inString));
+						Out.setText(encryption.de_encrypt(inString));
 					} catch (IndexOutOfBoundsException e) {
 						encrypt.setSelected(true);
 						deEncrypt.setSelected(false);
 						//assume user does not want to try and de-encrypt the invalid string, switch to encryption mode 
 					}
 				} else {
-					Out.setText(Encryption.encrypt(inString.toLowerCase()));
+					Out.setText(encryption.encrypt(inString.toLowerCase()));
 				}
 			}
 		});
 	}
-
+	void putFileOntoDesktop(){
+		
+	}
+	
+	
 	// copy text to clipboard
 	void copyToClipBoard(String str) {
 		StringSelection stringSelection = new StringSelection(str);
